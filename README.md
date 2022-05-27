@@ -1,4 +1,4 @@
 # pokemon-tcg-sdk-typescript
-Unofficial SDK for the Pokemon TCG API. (https://pokemontcg.io)
+Unofficial TypeScript SDK for the Pokemon TCG API. (https://pokemontcg.io)
 
 Written in typescript.
