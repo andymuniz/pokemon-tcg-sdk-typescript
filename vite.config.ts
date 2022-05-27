@@ -1,8 +1,8 @@
 import path from "path";
 import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
 // Use Library Mode https://vitejs.dev/guide/build.html#library-mode
-
 module.exports = defineConfig({
   build: {
     lib: {
@@ -21,4 +21,9 @@ module.exports = defineConfig({
       },
     },
   },
+  plugins: [
+    dts({
+      entryRoot: "./lib",
+    }),
+  ],
 });
