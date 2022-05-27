@@ -19,7 +19,8 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "declaration": true
+    "declaration": true,
+    "jsx": "react-jsx"
   },
   "include": [
     "src",

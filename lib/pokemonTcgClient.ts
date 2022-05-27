@@ -1,4 +1,13 @@
-import { ICard, ISet } from "./types/types";
+import type { ICard, ISet } from "./types/types";
+
+interface ApiResponse<T extends object = any> {
+  data: T;
+}
+
+interface ApiError {
+  message: string;
+  code: number;
+}
 
 class PokemonTcgApiClient {
   #baseUrl: string = "https://api.pokemontcg.io/v2";
@@ -13,8 +22,8 @@ class PokemonTcgApiClient {
     const response = await fetch(url, {
       headers: this.#headers,
     });
-    const data = await response.json();
-    return data;
+    const data: ApiResponse = await response.json();
+    return data.data;
   }
 
   async getCards(): Promise<ICard[]> {

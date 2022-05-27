@@ -1,12 +1,13 @@
 import path from "path";
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 
 // Use Library Mode https://vitejs.dev/guide/build.html#library-mode
 module.exports = defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "lib/main.ts"),
+      entry: path.resolve(__dirname, "lib/main.tsx"),
       name: "PokemonTcgClient",
       fileName: (format) => `pokemon-tcg-client.${format}.js`,
     },
@@ -22,6 +23,7 @@ module.exports = defineConfig({
     },
   },
   plugins: [
+    react(),
     dts({
       entryRoot: "./lib",
     }),
