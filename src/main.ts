@@ -1,8 +1,6 @@
-import './style.css'
+import { PokemonTcgApiClient } from "./pokemonTcgClient";
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+const client = new PokemonTcgApiClient();
+client.setApiKey("62c12cea-f2fd-48c5-af98-e9a03b94af4d");
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+window.Pokemon = client;
