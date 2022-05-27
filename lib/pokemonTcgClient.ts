@@ -1,12 +1,22 @@
-import type { ICard, ISet } from "./types/types";
+import type { ICard, ISet } from "./types/api-types";
 
-interface ApiResponse<T extends object = any> {
-  data: T;
-}
+export type ApiResponse<T = unknown> =
+  | {
+      data: T;
+    }
+  | {
+      error: {
+        message: string;
+        code: number;
+      };
+    };
 
-interface ApiError {
-  message: string;
+export class ApiError extends Error {
   code: number;
+  constructor(message: string, code: number) {
+    super(message);
+    this.code = code;
+  }
 }
 
 class PokemonTcgApiClient {
@@ -17,43 +27,47 @@ class PokemonTcgApiClient {
     this.#headers.set("X-Api-Key", apiKey);
   }
 
-  async #fetch(url: string) {
+  async #fetch<T>(url: string): Promise<T> {
     // set the API key in the header
     const response = await fetch(url, {
       headers: this.#headers,
     });
-    const data: ApiResponse = await response.json();
+    const data: ApiResponse<T> = await response.json();
+
+    if ("error" in data) {
+      throw new ApiError(data.error.message, data.error.code);
+    }
     return data.data;
   }
 
   async getCards(): Promise<ICard[]> {
     const url = `${this.#baseUrl}/cards`;
-    return this.#fetch(url);
+    return this.#fetch<ICard[]>(url);
   }
 
   async getCard(id: string): Promise<ICard> {
     const url = `${this.#baseUrl}/cards/${id}`;
-    return this.#fetch(url);
+    return this.#fetch<ICard>(url);
   }
 
   async getSets(): Promise<ISet[]> {
     const url = `${this.#baseUrl}/sets`;
-    return this.#fetch(url);
+    return this.#fetch<ISet[]>(url);
   }
 
   async getSet(id: string): Promise<ISet> {
     const url = `${this.#baseUrl}/sets/${id}`;
-    return this.#fetch(url);
+    return this.#fetch<ISet>(url);
   }
 
   async getTypes(): Promise<string[]> {
     const url = `${this.#baseUrl}/types`;
-    return this.#fetch(url);
+    return this.#fetch<string[]>(url);
   }
 
   async getType(id: string): Promise<string> {
     const url = `${this.#baseUrl}/types/${id}`;
-    return this.#fetch(url);
+    return this.#fetch<string>(url);
   }
 }
 

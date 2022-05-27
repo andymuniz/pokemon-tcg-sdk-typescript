@@ -9,7 +9,7 @@ import postcssCustomMedia from "postcss-custom-media";
 module.exports = defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "lib/main.tsx"),
+      entry: path.resolve(__dirname, "lib/main.ts"),
       name: "PokemonTcgClient",
       fileName: (format) => `pokemon-tcg-client.${format}.js`,
     },

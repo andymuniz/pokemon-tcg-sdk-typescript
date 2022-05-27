@@ -1,14 +1,16 @@
 import { useQuery } from "react-query";
 import { client } from "../util/client";
-import type { ICard } from "../../lib/types/types";
+import type { ICard } from "../../lib/types/api-types";
 import "./Playground.css";
 import { PokemonCard } from "./PokemonCard";
+import { ApiError } from "../../lib/pokemonTcgClient";
 
 function Playground() {
-  const { data, isLoading, isSuccess, isError, error } = useQuery(
-    ["cards"],
-    () => client.getCards()
-  );
+  const { data, isLoading, isSuccess, isError, error } = useQuery<
+    unknown,
+    ApiError,
+    ICard[]
+  >(["cards"], () => client.getCards());
 
   if (isLoading) {
     return <p>Loading...</p>;
