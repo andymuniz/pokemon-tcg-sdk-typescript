@@ -1,3 +1,14 @@
+export type ApiResponse<T = unknown> =
+  | {
+      data: T;
+    }
+  | {
+      error: {
+        message: string;
+        code: number;
+      };
+    };
+
 export interface ICard {
   id: string;
   name: string;

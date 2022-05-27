@@ -1,23 +1,5 @@
-import type { ICard, ISet } from "./types/api-types";
-
-export type ApiResponse<T = unknown> =
-  | {
-      data: T;
-    }
-  | {
-      error: {
-        message: string;
-        code: number;
-      };
-    };
-
-export class ApiError extends Error {
-  code: number;
-  constructor(message: string, code: number) {
-    super(message);
-    this.code = code;
-  }
-}
+import { ApiError } from "../errors/ApiError";
+import type { ApiResponse, ICard, ISet } from "./types";
 
 class PokemonTcgApiClient {
   #baseUrl: string = "https://api.pokemontcg.io/v2";

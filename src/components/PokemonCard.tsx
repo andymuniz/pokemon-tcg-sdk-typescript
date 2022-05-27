@@ -1,4 +1,4 @@
-import { ICard } from "../../lib/types/api-types";
+import { ICard } from "../../lib/api/types";
 import { FlippableCard } from "./FlippableCard";
 
 export function PokemonCard({ card }: { card: ICard }) {

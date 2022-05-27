@@ -1,3 +1,3 @@
-import { PokemonTcgApiClient } from "./pokemonTcgClient";
+import { PokemonTcgApiClient } from "./api/client";
 
 export { PokemonTcgApiClient };
