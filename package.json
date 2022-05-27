@@ -1,0 +1,19 @@
+{
+  "name": "@andymuniz/pokemon-tcg-sdk-typescript",
+  "version": "1.0.0",
+  "description": "Pokemon TCG Typescript SDK (https://pokemontcg.io)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andymuniz/pokemon-tcg-sdk-typescript.git"
+  },
+  "author": "Andy Muniz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andymuniz/pokemon-tcg-sdk-typescript/issues"
+  },
+  "homepage": "https://github.com/andymuniz/pokemon-tcg-sdk-typescript#readme"
+}
