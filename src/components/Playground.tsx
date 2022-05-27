@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { client } from "../util/client";
 import type { ICard } from "../../lib/types/types";
 import "./Playground.css";
+import { PokemonCard } from "./PokemonCard";
 
 function Playground() {
   const { data, isLoading, isSuccess, isError, error } = useQuery(
@@ -51,14 +52,6 @@ function PokemonCardInfo({ card }: { card: ICard }) {
       <p className="setName">Set: {card.set.name}</p>
       <PokemonCard card={card} />
     </article>
-  );
-}
-
-function PokemonCard({ card }: { card: ICard }) {
-  return (
-    <figure className="flipImgContainer">
-      <img className="pokemonCardImage" src={card.images.small} />
-    </figure>
   );
 }
 
