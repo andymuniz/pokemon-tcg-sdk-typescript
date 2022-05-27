@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { client } from "../util/client";
 import type { ICard } from "../../lib/types/types";
-import "./Playground.scss";
+import "./Playground.css";
 
 function Playground() {
   const { data, isLoading, isSuccess, isError, error } = useQuery(
@@ -38,21 +38,27 @@ function PokemonCards({ cards }: { cards: ICard[] }) {
   return (
     <>
       {cards.map((card) => (
-        <PokemonCard key={card.id} card={card} />
+        <PokemonCardInfo key={card.id} card={card} />
       ))}
     </>
   );
 }
 
-function PokemonCard({ card }: { card: ICard }) {
+function PokemonCardInfo({ card }: { card: ICard }) {
   return (
-    <article className="pokemonCard flex-column">
+    <article className="pokemonCardInfo flex-column">
       <h2 className="cardName">{card.name}</h2>
       <p className="setName">Set: {card.set.name}</p>
-      <figure>
-        <img src={card.images.small} />
-      </figure>
+      <PokemonCard card={card} />
     </article>
+  );
+}
+
+function PokemonCard({ card }: { card: ICard }) {
+  return (
+    <figure className="flipImgContainer">
+      <img className="pokemonCardImage" src={card.images.small} />
+    </figure>
   );
 }
 

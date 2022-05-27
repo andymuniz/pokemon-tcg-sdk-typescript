@@ -1,6 +1,6 @@
 import { AppProviders } from "./AppProviders";
 import { Playground } from "./components/Playground";
-import "./styles/reset.scss";
+import "./styles/reset.css";
 
 function App() {
   return (
