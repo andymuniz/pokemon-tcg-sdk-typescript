@@ -1,4 +1,4 @@
-import { PokemonTcgApiClient } from "./pokemonTcgClient";
+import { PokemonTcgApiClient } from "../lib/pokemonTcgClient";
 
 declare global {
   // Attach client instance to window for easy browser testing
