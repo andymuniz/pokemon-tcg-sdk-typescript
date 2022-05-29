@@ -14,29 +14,29 @@ export interface ICard {
   name: string;
   supertype: string;
   subtypes: string[];
-  hp: string;
-  types: string[];
-  evolvesFrom: string;
-  evolvesTo: string[];
-  rules: string[];
-  ancientTrait: IAncientTrait;
-  abilities: IAbility[];
-  attacks: IAttack[];
-  weaknesses: IWeakness[];
-  resistances: IResistance[];
-  retreatCost: string[];
-  convertedRetreatCost: number;
+  hp?: string;
+  types?: string[];
+  evolvesFrom?: string;
+  evolvesTo?: string[];
+  rules?: string[];
+  ancientTrait?: IAncientTrait;
+  abilities?: IAbility[];
+  attacks?: IAttack[];
+  weaknesses?: IWeakness[];
+  resistances?: IResistance[];
+  retreatCost?: string[];
+  convertedRetreatCost?: number;
   set: ISet;
   number: string;
-  artist: string;
+  artist?: string;
   rarity: string;
-  flavorText: string;
-  nationalPokedexNumbers: number[];
-  legalities: ILegalities;
+  flavorText?: string;
+  nationalPokedexNumbers?: number[];
+  legalities: ILegality;
   regulationMark: string;
-  images: ICardImages;
-  tcgplayer: ITcgPlayer;
-  cardmarket: ICardMarket;
+  images: ICardImage;
+  tcgplayer: ITCGPlayer;
+  cardmarket: ICardmarket;
 }
 
 export interface ISet {
@@ -45,11 +45,11 @@ export interface ISet {
   series: string;
   printedTotal: number;
   total: number;
-  legalities: ILegalities;
+  legalities: ILegality;
   ptcgoCode: string;
   releaseDate: string;
   updatedAt: string;
-  images: ISetImages;
+  images: ISetImage;
 }
 
 export interface IAbility {
@@ -81,64 +81,62 @@ export interface IResistance {
   value: string;
 }
 
-export interface ILegalities {
+export interface ILegality {
   unlimited: string;
   standard: string;
   expanded: string;
 }
 
-export interface ISetImages {
+export interface ISetImage {
   symbol: string;
   logo: string;
 }
 
-export interface ICardImages {
+export interface ICardImage {
   small: string;
   large: string;
 }
 
-export interface ITcgPlayer {
+export interface ITCGPlayer {
   url: string;
   updatedAt: string;
-  prices: ITcgPlayerPrices;
+  prices: Partial<{
+    normal: IPrice;
+    holofoil: IPrice;
+    reverseHolofoil: IPrice;
+    "1stEditionNormal": IPrice;
+    "1stEditionHolofoil": IPrice;
+  }>;
 }
 
-export interface ITcgPlayerPrices {
-  normal: IPricePoints;
-  holofoil: IPricePoints;
-  reverseHolofoil: IPricePoints;
-  "1stEditionHolofoil": IPricePoints;
-  "1stEditionNormal": IPricePoints;
+export interface IPrice {
+  low: number | null;
+  mid: number | null;
+  high: number | null;
+  market: number | null;
+  directLow: number | null;
 }
 
-export interface IPricePoints {
-  low: number;
-  mid: number;
-  high: number;
-  market: number;
-  directLow: number;
-}
-
-export interface ICardMarket {
+export interface ICardmarket {
   url: string;
   updatedAt: string;
-  prices: IPrices;
+  prices: {
+    averageSellPrice: number | null;
+    lowPrice: number | null;
+    trendPrice: number | null;
+    germanProLow: number | null;
+    suggestedPrice: number | null;
+    reverseHoloSell: number | null;
+    reverseHoloLow: number | null;
+    reverseHoloTrend: number | null;
+    lowPriceExPlus: number | null;
+    avg1: number | null;
+    avg7: number | null;
+    avg30: number | null;
+    reverseHoloAvg1: number | null;
+    reverseHoloAvg7: number | null;
+    reverseHoloAvg30: number | null;
+  };
 }
 
-export interface IPrices {
-  averageSellPrice: number;
-  lowPrice: number;
-  trendPrice: number;
-  germanProLow: number;
-  suggestedPrice: number;
-  reverseHoloSell: number;
-  reverseHoloLow: number;
-  reverseHoloTrend: number;
-  lowPriceExPlus: number;
-  avg1: number;
-  avg7: number;
-  avg30: number;
-  reverseHoloAvg1: number;
-  reverseHoloAvg7: number;
-  reverseHoloAvg30: number;
-}
+// TODO: IQuery for the search API parameters
