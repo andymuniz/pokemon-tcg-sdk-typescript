@@ -1,6 +1,5 @@
 import { useReducer } from "react";
 import { classNames } from "../util/classNames";
-import "./FlippableCard.css";
 
 interface FlippableCardProps {
   frontImgSrc: string;
@@ -11,16 +10,41 @@ export function FlippableCard({ frontImgSrc, backImgSrc }: FlippableCardProps) {
   const [isFlipped, flip] = useReducer((state) => !state, false);
 
   return (
+    // Card
     <div
-      className={classNames("card", isFlipped ? "flipped" : null)}
+      className={classNames(
+        "cursor-pointer",
+        "rounded-xl",
+        "[transform-style:preserve-3d]",
+        "transition duration-200 ease-out",
+        isFlipped ? "[transform:rotateY(180deg)]" : null
+      )}
       onClick={flip}
     >
-      <span className="card-backface">
-        <img src={backImgSrc} />
+      {/* Card Backface */}
+      <span
+        className={classNames(
+          "rounded-xl",
+          "[transform:translateZ(-1px)]",
+          "absolute top-0 left-0",
+          "h-full w-full",
+          "transition duration-200 ease-out"
+        )}
+      >
+        <img
+          src={backImgSrc}
+          className={classNames(
+            "rounded-xl",
+            "h-full w-full",
+            "[transform:rotateY(180deg)]"
+          )}
+        />
       </span>
-      <span className="card-frontface">
-        <img src={frontImgSrc} />
-        <span className="glare"></span>
+      {/* Card Frontface */}
+      <span
+        className={classNames("rounded-xl", "transition duration-200 ease-out")}
+      >
+        <img src={frontImgSrc} className="rounded-xl" />
       </span>
     </div>
   );
