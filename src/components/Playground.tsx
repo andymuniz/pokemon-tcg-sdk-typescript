@@ -50,7 +50,7 @@ function PokemonCards({ cards }: { cards: ICard[] }) {
 function PokemonCardInfo({ card }: { card: ICard }) {
   return (
     <article className="pokemonCardInfo flex-column">
-      <h2 className="cardName">{card.name}</h2>
+      <h2 className="cardName bg-red-700">{card.name}</h2>
       <p className="setName">Set: {card.set.name}</p>
       <PokemonCard card={card} />
     </article>

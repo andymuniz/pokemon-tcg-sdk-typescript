@@ -2,8 +2,6 @@ import path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
-import postcssNesting from "postcss-nesting";
-import postcssCustomMedia from "postcss-custom-media";
 
 // Use Library Mode https://vitejs.dev/guide/build.html#library-mode
 module.exports = defineConfig({
@@ -30,7 +28,4 @@ module.exports = defineConfig({
       entryRoot: "./lib",
     }),
   ],
-  css: {
-    postcss: { plugins: [postcssNesting, postcssCustomMedia] },
-  },
 });
