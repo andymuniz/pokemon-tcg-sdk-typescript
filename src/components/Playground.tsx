@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import { client } from "../util/client";
 import type { ICard } from "../../lib/api/types";
-import "./Playground.css";
 import { PokemonCard } from "./PokemonCard";
 import { ApiError } from "../../lib/errors/ApiError";
 
@@ -18,8 +17,8 @@ function Playground() {
 
   if (isSuccess) {
     return (
-      <div className="container">
-        <div className="grid">
+      <div className="w-full h-full flex flex-col items-center justify-center p-5 bg-gray-300">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-8 gap-4 mb-4">
           <PokemonCards cards={data} />;
         </div>
       </div>
@@ -49,9 +48,9 @@ function PokemonCards({ cards }: { cards: ICard[] }) {
 
 function PokemonCardInfo({ card }: { card: ICard }) {
   return (
-    <article className="pokemonCardInfo flex-column">
-      <h2 className="cardName bg-red-700">{card.name}</h2>
-      <p className="setName">Set: {card.set.name}</p>
+    <article className="flex flex-col min-w-0 max-w-fit border border-solid border-black rounded bg-white p-4">
+      <h2 className="whitespace-nowrap">{card.name}</h2>
+      <p className="min-h-[3rem]">Set: {card.set.name}</p>
       <PokemonCard card={card} />
     </article>
   );
