@@ -1,5 +1,13 @@
+import { URL } from "url";
 import { ApiError } from "../errors/ApiError";
 import type { ApiResponse, ICard, ISet } from "./types";
+
+interface GetCardQueryParameters {
+  /**
+   * A comma delimited list of fields to return in the response (ex. ?select=id,name). By default, all fields are returned if this query parameter is not used.
+   */
+  select?: Array<keyof ICard>;
+}
 
 class PokemonTcgApiClient {
   #baseUrl: string = "https://api.pokemontcg.io/v2";
@@ -23,33 +31,36 @@ class PokemonTcgApiClient {
   }
 
   async getCards(): Promise<ICard[]> {
-    const url = `${this.#baseUrl}/cards`;
-    return this.#fetch<ICard[]>(url);
+    const url = new URL(`${this.#baseUrl}/cards`);
+    return this.#fetch<ICard[]>(url.toString());
   }
 
-  async getCard(id: string): Promise<ICard> {
-    const url = `${this.#baseUrl}/cards/${id}`;
-    return this.#fetch<ICard>(url);
+  async getCard(id: string, params?: GetCardQueryParameters): Promise<ICard> {
+    const url = new URL(`${this.#baseUrl}/cards/${id}`);
+    if (params?.select) {
+      url.searchParams.set("select", params.select.join(","));
+    }
+    return this.#fetch<ICard>(url.toString());
   }
 
   async getSets(): Promise<ISet[]> {
-    const url = `${this.#baseUrl}/sets`;
-    return this.#fetch<ISet[]>(url);
+    const url = new URL(`${this.#baseUrl}/sets`);
+    return this.#fetch<ISet[]>(url.toString());
   }
 
   async getSet(id: string): Promise<ISet> {
-    const url = `${this.#baseUrl}/sets/${id}`;
-    return this.#fetch<ISet>(url);
+    const url = new URL(`${this.#baseUrl}/sets/${id}`);
+    return this.#fetch<ISet>(url.toString());
   }
 
   async getTypes(): Promise<string[]> {
-    const url = `${this.#baseUrl}/types`;
-    return this.#fetch<string[]>(url);
+    const url = new URL(`${this.#baseUrl}/types`);
+    return this.#fetch<string[]>(url.toString());
   }
 
   async getType(id: string): Promise<string> {
-    const url = `${this.#baseUrl}/types/${id}`;
-    return this.#fetch<string>(url);
+    const url = new URL(`${this.#baseUrl}/types/${id}`);
+    return this.#fetch<string>(url.toString());
   }
 }
 
