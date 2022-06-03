@@ -22,12 +22,16 @@ const client = new PokemonTcgApiClient();
 client.setApiKey('your-api-key');
 
 // Get a list of cards
-client.getCards().then(cards => {
-  console.log(cards);
-});
+client.getCards().then(console.log);
 
 // Get a card
-client.getCard('xy1-1').then(card => {
-  console.log(card);
-});
+client.getCard('xy1-1').then(console.log);
+
+// Get a list of cards.
+// Order by name then number descending.
+// Return only the "name" and "number" fields.
+client.getCards({
+  orderBy: ["name", "-number"],
+  select: ["name", "number"]
+}).then(console.log);
 ```
