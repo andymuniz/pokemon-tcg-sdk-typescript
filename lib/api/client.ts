@@ -1,12 +1,52 @@
-import { URL } from "url";
+import { URL, URLSearchParams } from "url";
 import { ApiError } from "../errors/ApiError";
+import type { Prefix } from "../utils/type-utils";
 import type { ApiResponse, ICard, ISet } from "./types";
 
+type CardField = keyof ICard;
+type OrderField = CardField | Prefix<CardField, "-">;
+
+/**
+ * A list of fields to return in the response (ex. ["id", "name"]). By default, all fields are returned if this query parameter is not used.
+ */
+type SelectParameter = CardField[];
+
+/**
+ * The field(s) to order the results by.
+ * e.g. Order all cards from Sun & Moon by their name (ascending) and then their number (descending)
+ */
+type OrderByParameter = OrderField[];
+
 interface GetCardQueryParameters {
+  select?: SelectParameter;
+}
+
+interface GetCardsQueryParameters {
   /**
-   * A comma delimited list of fields to return in the response (ex. ?select=id,name). By default, all fields are returned if this query parameter is not used.
+   * The search query.
+   * https://docs.pokemontcg.io/api-reference/cards/search-cards
    */
-  select?: Array<keyof ICard>;
+  q?: string;
+  /**
+   * The page of data to access.
+   */
+  page?: number;
+  /**
+   * The maximum amount of cards to return.
+   */
+  pageSize?: number;
+  orderBy?: OrderByParameter;
+  select?: SelectParameter;
+}
+
+function appendIfDefined(
+  params: URLSearchParams,
+  key: string,
+  value: unknown | undefined
+): void {
+  if (value !== undefined) {
+    params.append(key, String(value));
+  }
 }
 
 class PokemonTcgApiClient {
@@ -30,8 +70,19 @@ class PokemonTcgApiClient {
     return data.data;
   }
 
-  async getCards(): Promise<ICard[]> {
+  async getCards(params?: GetCardsQueryParameters): Promise<ICard[]> {
     const url = new URL(`${this.#baseUrl}/cards`);
+    const searchParams = new URLSearchParams();
+
+    const { q, page, pageSize, orderBy, select } = params ?? {};
+    appendIfDefined(searchParams, "q", q);
+    appendIfDefined(searchParams, "page", page);
+    appendIfDefined(searchParams, "pageSize", pageSize);
+    appendIfDefined(searchParams, "orderBy", orderBy);
+    if (select?.length) {
+      searchParams.append("select", select.join(","));
+    }
+
     return this.#fetch<ICard[]>(url.toString());
   }
 
