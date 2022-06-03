@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { client } from "../util/client";
-import type { ICard } from "../../lib/api/types";
 import { PokemonCard } from "./PokemonCard";
 import { ApiError } from "../../lib/errors/ApiError";
+import { ICard } from "../../lib/types/api/ICard";
 
 function Playground() {
   const { data, isLoading, isSuccess, isError, error } = useQuery<

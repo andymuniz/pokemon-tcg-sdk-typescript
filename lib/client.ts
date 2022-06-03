@@ -1,53 +1,12 @@
-import { URL, URLSearchParams } from "url";
-import { ApiError } from "../errors/ApiError";
-import type { Prefix } from "../utils/type-utils";
-import type { ApiResponse, ICard, ISet } from "./types";
-
-type CardField = keyof ICard;
-type OrderField = CardField | Prefix<CardField, "-">;
-
-/**
- * A list of fields to return in the response (ex. ["id", "name"]). By default, all fields are returned if this query parameter is not used.
- */
-type SelectParameter = CardField[];
-
-/**
- * The field(s) to order the results by.
- * e.g. Order all cards from Sun & Moon by their name (ascending) and then their number (descending)
- */
-type OrderByParameter = OrderField[];
-
-interface GetCardQueryParameters {
-  select?: SelectParameter;
-}
-
-interface GetCardsQueryParameters {
-  /**
-   * The search query.
-   * https://docs.pokemontcg.io/api-reference/cards/search-cards
-   */
-  q?: string;
-  /**
-   * The page of data to access.
-   */
-  page?: number;
-  /**
-   * The maximum amount of cards to return.
-   */
-  pageSize?: number;
-  orderBy?: OrderByParameter;
-  select?: SelectParameter;
-}
-
-function appendIfDefined(
-  params: URLSearchParams,
-  key: string,
-  value: unknown | undefined
-): void {
-  if (value !== undefined) {
-    params.append(key, String(value));
-  }
-}
+import { ApiError } from "./errors/ApiError";
+import type { ApiResponse } from "./types/api/ApiResponse";
+import type {
+  CardSearchParameters,
+  CardsSearchParameters,
+  ICard,
+} from "./types/api/ICard";
+import type { ISet } from "./types/api/ISet";
+import { appendIfDefined } from "./utils/api-utils";
 
 class PokemonTcgApiClient {
   #baseUrl: string = "https://api.pokemontcg.io/v2";
@@ -70,7 +29,7 @@ class PokemonTcgApiClient {
     return data.data;
   }
 
-  async getCards(params?: GetCardsQueryParameters): Promise<ICard[]> {
+  async getCards(params?: CardsSearchParameters): Promise<ICard[]> {
     const url = new URL(`${this.#baseUrl}/cards`);
     const searchParams = new URLSearchParams();
 
@@ -86,7 +45,7 @@ class PokemonTcgApiClient {
     return this.#fetch<ICard[]>(url.toString());
   }
 
-  async getCard(id: string, params?: GetCardQueryParameters): Promise<ICard> {
+  async getCard(id: string, params?: CardSearchParameters): Promise<ICard> {
     const url = new URL(`${this.#baseUrl}/cards/${id}`);
     if (params?.select) {
       url.searchParams.set("select", params.select.join(","));
