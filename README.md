@@ -1,4 +1,6 @@
-# Pokemon TCG SDK &middot; [![npm version](https://badge.fury.io/js/@andymuniz%2Fpokemon-tcg-sdk-typescript.svg)](https://badge.fury.io/js/@andymuniz%2Fpokemon-tcg-sdk-typescript)
+# Pokemon TCG SDK
+![npm (scoped)](https://img.shields.io/npm/v/@andymuniz/pokemon-tcg-sdk-typescript.svg) 
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@andymuniz/pokemon-tcg-sdk-typescript.svg)
 
 This is an unofficial TypeScript SDK for the [Pokemon TCG](https://pokemontcg.io) API.
 
