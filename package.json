@@ -1,6 +1,6 @@
 {
   "name": "@andymuniz/pokemon-tcg-sdk-typescript",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Unofficial TypeScript SDK for the Pokemon TCG API. (https://pokemontcg.io)",
   "author": "Andy Muniz",
   "scripts": {
