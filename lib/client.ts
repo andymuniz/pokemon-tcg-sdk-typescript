@@ -8,7 +8,7 @@ import type {
 import type { ISet } from "./types/api/ISet";
 import { appendIfDefined } from "./utils/api-utils";
 
-class PokemonTcgApiClient {
+class BasePokemonTcgApiClient {
   #baseUrl: string = "https://api.pokemontcg.io/v2";
   #headers = new Headers();
 
@@ -31,7 +31,7 @@ class PokemonTcgApiClient {
 
   async getCards(params?: CardsSearchParameters): Promise<ICard[]> {
     const url = new URL(`${this.#baseUrl}/cards`);
-    const searchParams = new URLSearchParams();
+    const searchParams = url.searchParams;
 
     const { q, page, pageSize, orderBy, select } = params ?? {};
     appendIfDefined(searchParams, "q", q);
@@ -72,6 +72,131 @@ class PokemonTcgApiClient {
     const url = new URL(`${this.#baseUrl}/types/${id}`);
     return this.#fetch<string>(url.toString());
   }
+}
+
+class CardAPI {
+  constructor(private client: BasePokemonTcgApiClient) {}
+
+  /**
+   * Finds all cards that match the given search parameters.
+   * @param params Optional search parameters.
+   * @returns A list of all cards that match the given search parameters.
+   * @example
+   * ```ts
+   * const cards = await client.card.search();
+   * ```
+   * @example
+   * ```ts
+   * const cards = await client.card.search({ q: "name:charizard" });
+   * ```
+   * @example
+   * ```ts
+   * const cards = await client.card.search({ q: "name:charizard", orderBy: "name" });
+   * ```
+   */
+  async search(params?: CardsSearchParameters): Promise<ICard[]> {
+    return this.client.getCards(params);
+  }
+
+  /**
+   * Finds a card by its ID.
+   * @param id The ID of the card to find.
+   * @param params Optional search parameters.
+   * @returns The card with the given ID.
+   * @example
+   * ```ts
+   * const card = await client.card.find("xy1-1");
+   * ```
+   * @example
+   * ```ts
+   * const card = await client.card.find("xy1-1", { select: ["name", "imageUrl"] });
+   * ```
+   */
+  async find(id: string, params?: CardSearchParameters): Promise<ICard> {
+    return this.client.getCard(id, params);
+  }
+}
+
+class SetAPI {
+  constructor(private client: BasePokemonTcgApiClient) {}
+
+  /**
+   * Finds all sets.
+   * @returns A list of all sets.
+   * @example
+   * ```ts
+   * const sets = await client.set.all();
+   * ```
+   */
+  async all(): Promise<ISet[]> {
+    return this.client.getSets();
+  }
+
+  /**
+   * Finds a set by its ID.
+   * @param id The ID of the set to find.
+   * @returns The set with the given ID.
+   * @example
+   * ```ts
+   * const set = await client.set.find("swsh1");
+   * ```
+   */
+  async find(id: string): Promise<ISet> {
+    return this.client.getSet(id);
+  }
+}
+
+class TypeAPI {
+  constructor(private client: BasePokemonTcgApiClient) {}
+
+  /**
+   * Finds all types.
+   * @returns A list of all types.
+   * @example
+   * ```ts
+   * const types = await client.type.all();
+   * ```
+   */
+  async all(): Promise<string[]> {
+    return this.client.getTypes();
+  }
+
+  /**
+   * Finds a type by its ID.
+   * @param id The ID of the type to find.
+   * @returns The type with the given ID.
+   * @example
+   * ```ts
+   * const type = await client.type.find("fire");
+   * ```
+   */
+  async find(id: string): Promise<string> {
+    return this.client.getType(id);
+  }
+}
+
+class PokemonTcgApiClient {
+  #baseClient = new BasePokemonTcgApiClient();
+
+  /**
+   * Sets the API key to use for all requests.
+   * @param apiKey The API key to use.
+   * @example
+   * ```ts
+   *  client.setApiKey("my-api-key");
+   * ```
+   * @see https://pokemontcg.io/
+   */
+  setApiKey(apiKey: string) {
+    this.#baseClient.setApiKey(apiKey);
+  }
+
+  /** Card API methods. */
+  card = new CardAPI(this.#baseClient);
+  /** Set API methods. */
+  set = new SetAPI(this.#baseClient);
+  /** Type API methods. */
+  type = new TypeAPI(this.#baseClient);
 }
 
 export { PokemonTcgApiClient };

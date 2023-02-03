@@ -1,12 +1,16 @@
 import { useQuery } from "react-query";
 import { client } from "../util/client";
 import { PokemonCard } from "./PokemonCard";
-import { ICard } from "../../lib/types/api/ICard";
+import { CardsSearchParameters, ICard } from "../../lib/types/api/ICard";
 
 function Playground() {
+  const params: CardsSearchParameters = {
+    q: "name:pikachu",
+    pageSize: 25,
+  };
   const { data, isLoading, isSuccess, isError, error } = useQuery(
-    ["cards"],
-    () => client.getCards()
+    ["cards", params],
+    () => client.card.search(params)
   );
 
   if (isLoading) {
