@@ -85,6 +85,14 @@ export interface CardsSearchParameters {
    * The maximum amount of cards to return.
    */
   pageSize?: number;
+  /**
+   * The field(s) to order the results by.
+   * https://docs.pokemontcg.io/api-reference/cards/search-cards/#ordering-data
+   */
   orderBy?: OrderByParameter;
+  /**
+   * A comma delimited list of fields to return in the response (ex. ?select=id,name).
+   * By default, all fields are returned if this query parameter is not used.
+   */
   select?: SelectParameter;
 }
