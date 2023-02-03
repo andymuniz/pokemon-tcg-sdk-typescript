@@ -1,15 +1,13 @@
 import { useQuery } from "react-query";
 import { client } from "../util/client";
 import { PokemonCard } from "./PokemonCard";
-import { ApiError } from "../../lib/errors/ApiError";
 import { ICard } from "../../lib/types/api/ICard";
 
 function Playground() {
-  const { data, isLoading, isSuccess, isError, error } = useQuery<
-    unknown,
-    ApiError,
-    ICard[]
-  >(["cards"], () => client.getCards());
+  const { data, isLoading, isSuccess, isError, error } = useQuery(
+    ["cards"],
+    () => client.getCards()
+  );
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -26,6 +24,7 @@ function Playground() {
   }
 
   if (isError) {
+    console.error(error);
     return (
       <pre>
         <code>Error: {JSON.stringify(error)}</code>

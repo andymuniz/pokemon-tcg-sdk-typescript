@@ -1,4 +1,4 @@
-type SuccessfulResponse<T = unknown> = {
+type SuccessResponse<T = unknown> = {
   data: T;
 };
 
@@ -9,4 +9,4 @@ type ErrorResponse = {
   };
 };
 
-export type ApiResponse<T = unknown> = SuccessfulResponse<T> | ErrorResponse;
+export type ApiResponse<T = unknown> = SuccessResponse<T> | ErrorResponse;
